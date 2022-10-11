@@ -26,7 +26,7 @@ def get_all_flights(origin, destination, departure_dates, return_dates):
         # Deleting the current scrapper to create a new one
         scrapper.quit()
 
-    all_flights = pd.concat(all_flights) 
+    all_flights = pd.concat(all_flights, ignore_index=True) 
     return all_flights
 
 def sort_by_price(flights):
@@ -35,7 +35,7 @@ def sort_by_price(flights):
         
     sorted_flights = flights.copy()
     sorted_flights['real_price'] = sorted_flights['Price'].apply(extract_price)
-    sorted_flights.sort_values('real_price', inplace=True)
+    sorted_flights.sort_values('real_price', ignore_index=True, inplace=True)
     sorted_flights.drop('real_price', axis=1, inplace=True)
     return sorted_flights
 
@@ -73,9 +73,9 @@ if __name__ == '__main__':
     # Defining desired cities and dates
     #flights, wrappers = scrapper.get_flights('GDL', 'MAD', '2022-12-08', '2023-01-26', load_attemps=2)
     origin_cities = ['MEX']
-    destination_cities = ['MAD']#, 'FRA', 'CDG']
-    departure_dates = ['2022-12-08']#, '2022-12-09', '2022-12-10']
-    return_dates = ['2023-01-25']#, '2023-01-26', '2023-01-27']
+    destination_cities = ['MAD']
+    departure_dates = ['2022-12-10']#, '2022-12-11', '2022-12-12', '2022-12-13']
+    return_dates = ['2023-01-25']#, '2023-01-26', '2023-01-27', '2023-01-28']
 
     # Getting requested info
     flights = get_all_flights(origin_cities, destination_cities, departure_dates, return_dates)
@@ -83,13 +83,13 @@ if __name__ == '__main__':
     #print(sorted_flights)
 
     # Sending email with info
-    sender = ('YOURUSER@domain.com', 'YOURPASSWORD')
-    receivers = ['RECIPIENT@domain.com']
+    sender = ('USERNAME', 'PASSWORD')
+    receivers = ['RECEIVER']
     header = 'This are the top 100 results for your last search!'
     data = sorted_flights.head(100).to_html()
 
     try:
         send_flight_email(sender, receivers, header, data)
-        logger.log(f'Flight search result emain sent!')
+        logger.log(f'Flight search result email sent!')
     except:
         logger.log(f'Something went wrong, could not sent information email')

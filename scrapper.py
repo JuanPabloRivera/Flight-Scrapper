@@ -43,7 +43,8 @@ class Flight_Scrapper:
 
             self.logger.log('More results loaded, sleeping...')
             sleep(randint(self.sleep_time_min, self.sleep_time_max))
-        except:
+        except Exception as e:
+            print(e)
             self.logger.log('Something went wrong, could not get more results...')
 
     def change_mode_with_button(self,mode):
@@ -140,6 +141,7 @@ class Flight_Scrapper:
 
     def generate_flights_df(self, wrappers, departure_data, return_data, prices):
         self.logger.log('Creating data frames from fetched info')
+        self.logger.log(f'Info found: {len(wrappers)} elements')
 
         # Creating both data frames for departure and return and putting them together
         try:
