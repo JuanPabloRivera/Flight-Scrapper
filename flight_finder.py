@@ -83,8 +83,8 @@ if __name__ == '__main__':
     #print(sorted_flights)
 
     # Sending email with info
-    sender = ('jprr.2000@hotmail.com', 'JPRR2513')
-    receivers = ['jprr.2000@hotmail.com', 'mmb.bellet@gmail.com']
+    sender = ('YOURUSER@domain.com', 'YOURPASSWORD')
+    receivers = ['RECIPIENT@domain.com']
     header = 'This are the top 100 results for your last search!'
     data = sorted_flights.head(100).to_html()
 
